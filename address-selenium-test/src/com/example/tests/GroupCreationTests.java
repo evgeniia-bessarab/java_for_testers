@@ -2,32 +2,32 @@ package com.example.tests;
 
 import org.testng.annotations.Test;
 
-public class GroupCreationTests extends TestBase {
+public class GroupCreationTests {
   @Test
   public void testNonEmptyGroupCreation() throws Exception {
-	openMainPage();
-    openGroupsPage();
-    initNewGroupCreation();
+	MethodsForMainPage.openMainPage();
+	MethodsForMainPage.openGroupsPage();
+	MethodsForGroups.initNewGroupCreation();
     GroupData group = new GroupData();
     group.footer="footer 1";
     group.header="header 1";
     group.groupname="group 1";
-	fillGroupForm(group);
-    submitGroupCreation();
-    returnToGroupsPage();
+    MethodsForGroups.fillGroupForm(group);
+    MethodsForGroups.submitGroupCreation();
+    MethodsForMainPage.returnToGroupsPage();
   }
 
   @Test
   public void testEmptyGroupCreation() throws Exception {
-	openMainPage();
-    openGroupsPage();
-    initNewGroupCreation();
+	MethodsForMainPage.openMainPage();
+	MethodsForMainPage.openGroupsPage();
+	MethodsForGroups.initNewGroupCreation();
     GroupData group = new GroupData();
     group.footer="";
     group.header="";
     group.groupname="";
-	fillGroupForm(group);
-    submitGroupCreation();
-    returnToGroupsPage();
+    MethodsForGroups.fillGroupForm(group);
+    MethodsForGroups.submitGroupCreation();
+    MethodsForMainPage.returnToGroupsPage();
   }
 }
