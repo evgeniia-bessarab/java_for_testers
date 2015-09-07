@@ -22,4 +22,8 @@ public class FillEntryFormParameter {
 		this.birthDate = birthDate;
 		this.additInfo = additInfo;
 	}
+
+	public FillEntryFormParameter() {
+		// TODO Auto-generated constructor stub
+	}
 }

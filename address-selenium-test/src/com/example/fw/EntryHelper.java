@@ -14,29 +14,51 @@ public class EntryHelper  extends HelperBase{
 	}
 
 	public void submitEntryCreation() {
-		click(By.linkText("submit"));
+		click(By.name("submit"));
 	}
 
 	public void fillEntryForm(FillEntryFormParameter parameterObject) {	
-		enterFirstName(parameterObject.firstName);
-		enterLastName(parameterObject.lastName);
+		if(parameterObject.firstName != null) {
+			enterFirstName(parameterObject.firstName);
+		}
 		
-		enterAdress(parameterObject.address);
+		if(parameterObject.lastName != null) {
+			enterLastName(parameterObject.lastName);
+		}
 		
-		enterPhones(parameterObject.phones);
+		if(parameterObject.address != null) {
+			enterAdress(parameterObject.address);
+		}
 		
-	    enterEmail(parameterObject.email);
-	    enterSecondEmail(parameterObject.emailSecond);
+		if(parameterObject.phones != null) {
+			enterPhones(parameterObject.phones);
+		}
+		
+		if(parameterObject.email != null) {
+		    enterEmail(parameterObject.email);
+		}
+		
+		if(parameterObject.emailSecond != null) {
+			enterSecondEmail(parameterObject.emailSecond);
+		}
 	    
-	    enterBirthDate(parameterObject.birthDate);
-	    
-	    enterAdditionalInfo(parameterObject.additInfo);
+		if(parameterObject.birthDate != null) {
+			enterBirthDate(parameterObject.birthDate);
+		}
+		if(parameterObject.additInfo != null) {
+			enterAdditionalInfo(parameterObject.additInfo);
+		}
 	    
 	}
 
 	public void enterAdditionalInfo(EnterAdditionalInfoParameter parameterObject) {
-		enterSecondAdress(parameterObject.address);
-		enterSecondPhone(parameterObject.phone);   
+		if(parameterObject.address != null) {
+			enterSecondAdress(parameterObject.address);
+		}
+		
+		if(parameterObject.phone != null) {
+			enterSecondPhone(parameterObject.phone);   
+		}
 	}
 
 	public void enterSecondAdress(String address2) {
@@ -52,9 +74,15 @@ public class EntryHelper  extends HelperBase{
 	}
 
 	public void enterBirthDate(EnterBirthDateParameter parameterObject) {
-		selectByText(By.name("bday"),parameterObject.day);
-	    selectByText(By.name("bmonth"),parameterObject.month);
-	    type(By.name("byear"), parameterObject.year);
+		if(parameterObject.day != null) {
+			selectByText(By.name("bday"),parameterObject.day);
+		}
+		if(parameterObject.month != null) {
+			selectByText(By.name("bmonth"),parameterObject.month);
+		}
+		if(parameterObject.year != null) {
+			type(By.name("byear"), parameterObject.year);
+		}
 	}
 
 	public void enterEmail(String email) {
@@ -62,9 +90,15 @@ public class EntryHelper  extends HelperBase{
 	}
 
 	public void enterPhones(EnterPhonesParameter parameterObject) {
-		enterPhoneWork(parameterObject.work);
-		enterPhoneMobile(parameterObject.mobile);
-		enterPhoneHome(parameterObject.home);
+		if(parameterObject.work != null) {
+			enterPhoneWork(parameterObject.work);
+		}
+		if(parameterObject.mobile != null) {
+			enterPhoneMobile(parameterObject.mobile);
+		}
+		if(parameterObject.home != null) {
+			enterPhoneHome(parameterObject.home);
+		}
 	}
 
 	public void enterPhoneWork(String workPhone) {
@@ -89,6 +123,21 @@ public class EntryHelper  extends HelperBase{
 
 	public void enterFirstName(String firstname) {
 	    type(By.name("firstname"), firstname);
+	}
+
+
+	public void submitEntryModification() {
+		click(By.name("update"));
+		
+	}
+	
+	public void submitEntryDelete() {
+	    click(By.xpath("//input[@value='Delete']"));
+		
+	}
+
+	public void chooseEntryForModification(int index) {
+		click(By.xpath("//tr[@name='entry']["+index+"]/td/a/img[@title='Edit']/.."));
 	}
 
 }

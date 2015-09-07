@@ -2,7 +2,6 @@ package com.example.tests;
 
 import org.testng.annotations.Test;
 
-import com.example.fw.ApplicationManager;
 public class EntryCreateAndModifyTests extends TestsBase{
   @Test
   public void createNonEmptyEntry() throws Exception {
@@ -30,5 +29,20 @@ public class EntryCreateAndModifyTests extends TestsBase{
 	app.getEntryHelper().submitEntryCreation();
     app.getNavigationHelper().returnToMainPage();
   }
+  
+  @Test
+  public void modifyEntry() throws Exception {
+		app.getNavigationHelper().openMainPage();
+		app.getEntryHelper().chooseEntryForModification(1);
+
+		FillEntryFormParameter entry = new FillEntryFormParameter();
+		
+	    entry.firstName = "Vasya";
+	    
+		app.getEntryHelper().fillEntryForm(entry);
+		app.getEntryHelper().submitEntryModification();
+	    app.getNavigationHelper().returnToMainPage();
+	      
+	  }
 
 }
