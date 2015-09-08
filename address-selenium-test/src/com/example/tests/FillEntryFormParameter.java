@@ -30,8 +30,7 @@ public class FillEntryFormParameter implements Comparable<FillEntryFormParameter
 	@Override
 	public String toString() {
 		return "FillEntryFormParameter [firstName=" + firstName + ", lastName=" + lastName + ", address=" + address
-				+ ", phones=" + phones + ", email=" + email + ", emailSecond=" + emailSecond + ", birthDate="
-				+ birthDate + ", additInfo=" + additInfo + "]";
+				+  ", email=" + email + ", emailSecond=" + emailSecond + "]";
 	}
 
 	@Override
@@ -58,21 +57,21 @@ public class FillEntryFormParameter implements Comparable<FillEntryFormParameter
 		if (getClass() != obj.getClass())
 			return false;
 		FillEntryFormParameter other = (FillEntryFormParameter) obj;
-		if (additInfo == null) {
+		/*if (additInfo == null) {
 			if (other.additInfo != null)
 				return false;
 		} else if (!additInfo.equals(other.additInfo))
-			return false;
+			return false;*/
 		if (address == null) {
 			if (other.address != null)
 				return false;
 		} else if (!address.equals(other.address))
 			return false;
-		if (birthDate == null) {
+		/*if (birthDate == null) {
 			if (other.birthDate != null)
 				return false;
 		} else if (!birthDate.equals(other.birthDate))
-			return false;
+			return false;*/
 		if (email == null) {
 			if (other.email != null)
 				return false;
@@ -93,11 +92,11 @@ public class FillEntryFormParameter implements Comparable<FillEntryFormParameter
 				return false;
 		} else if (!lastName.equals(other.lastName))
 			return false;
-		if (phones == null) {
+		/*if (phones == null) {
 			if (other.phones != null)
 				return false;
 		} else if (!phones.equals(other.phones))
-			return false;
+			return false;*/
 		return true;
 	}
 

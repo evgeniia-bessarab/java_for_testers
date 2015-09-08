@@ -150,6 +150,7 @@ public class EntryHelper  extends HelperBase{
 			FillEntryFormParameter entry = new FillEntryFormParameter();
 			entry.firstName  = driver.findElement(By.xpath("//tr[@name='entry']["+(i+1)+"]/td[3]")).getText();
 			entry.lastName  =  driver.findElement(By.xpath("//tr[@name='entry']["+(i+1)+"]/td[2]")).getText();
+			entry.email  =  driver.findElement(By.xpath("//tr[@name='entry']["+(i+1)+"]/td[4]")).getText();
 			entries.add(entry);
 		}
 		return entries;

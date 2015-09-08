@@ -47,18 +47,25 @@ public class TestsBase {
 		 
 		 for(int i=0; i<2;i++) {
 			 FillEntryFormParameter entry = new FillEntryFormParameter();
-			 entry.firstName = generateRandomString();
-			 entry.lastName = generateRandomString();
-			 //entry.address = generateRandomString();
-			 //entry.emailSecond = generateRandomString();
-			 //EnterBirthDateParameter birthDate=new EnterBirthDateParameter(generateRandomNumberDay(), generateRandomNumberMonth(), generateRandomNumberYear());
-			// entry.birthDate = birthDate;
-			// EnterPhonesParameter phones=new EnterPhonesParameter(generateRandomString(), generateRandomString(), generateRandomString());
-			// entry.phones = phones;
+			 entry.firstName = generateNonEmptyRandomString();
+			 entry.lastName = generateNonEmptyRandomString();
+			// entry.address = generateNonEmptyRandomString();
+			// entry.emailSecond = generateNonEmptyRandomString();
+			 entry.email = generateNonEmptyRandomString();
+			/* birthDate=new EnterBirthDateParameter(generateRandomNumberDay(), generateRandomNumberMonth(), generateRandomNumberYear());
+			 entry.birthDate = birthDate;
+			 EnterPhonesParameter phones=new EnterPhonesParameter(generateRandomString(), generateRandomString(), generateRandomString());
+			 entry.phones = phones;
+			 EnterAdditionalInfoParameter addInfo=new EnterAdditionalInfoParameter(generateRandomString(), generateRandomString());
+		     entry.additInfo = addInfo;*/
 			 list.add(new Object[]{entry});
 		 }
 		 return list.iterator();
 	}
+	public String generateNonEmptyRandomString() {
+		Random rnd =new Random();
+		return "test"+rnd.nextInt();
+}
 	public String generateRandomString() {
 			Random rnd =new Random();
 			 if(rnd.nextInt(3)==0) {

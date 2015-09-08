@@ -26,16 +26,13 @@ public class EntryCreateAndModifyTests extends TestsBase{
 	  AssertJUnit.assertEquals(newList, oldList);
   }
  
-  @Test
-  public void modifyEntry() throws Exception {
+  @Test(dataProvider = "randomEntryGenerator")
+  public void modifyEntry(FillEntryFormParameter entry) throws Exception {
 		app.getNavigationHelper().openMainPage();
 		// save old state
 		List<FillEntryFormParameter> oldList = app.getEntryHelper().getEntries();
 		//actions
 		app.getEntryHelper().chooseEntryForModification(0);
-		FillEntryFormParameter entry = new FillEntryFormParameter();
-	    entry.firstName = "Vasya";
-	    entry.lastName= "Pupkin";
 		app.getEntryHelper().fillEntryForm(entry);
 		app.getEntryHelper().submitEntryModification();
 	    app.getNavigationHelper().returnToMainPage();

@@ -21,6 +21,7 @@ public class EntryRemovalTests extends TestsBase {
 		    //compare
 		    oldList.remove(0);
 		    Collections.sort(oldList);
+		    Collections.sort(newList);
 		    AssertJUnit.assertEquals(newList, oldList);
 		      
 	  }
