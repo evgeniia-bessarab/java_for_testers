@@ -7,11 +7,8 @@ import java.util.List;
 
 
 public class EntryCreateAndModifyTests extends TestsBase{
-  @Test
-  public void createNonEmptyEntry() throws Exception {	  
-	  FillEntryFormParameter entry= new FillEntryFormParameter();
-	  entry.firstName="";
-	  entry.lastName="";
+  @Test(dataProvider = "randomEntryGenerator")
+  public void testEntryCreationWithValidData(FillEntryFormParameter entry) throws Exception {
 	  app.getNavigationHelper().openMainPage(); 
 		// save old state
 	  List<FillEntryFormParameter> oldList = app.getEntryHelper().getEntries();
