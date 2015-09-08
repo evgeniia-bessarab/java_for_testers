@@ -1,48 +1,61 @@
 package com.example.tests;
 
 import org.testng.annotations.Test;
+import org.testng.AssertJUnit;
+import java.util.Collections;
+import java.util.List;
+
 
 public class EntryCreateAndModifyTests extends TestsBase{
   @Test
-  public void createNonEmptyEntry() throws Exception {
-	app.getNavigationHelper().openMainPage(); 
-	app.getNavigationHelper().openEntyCreateModifyPage();
-
-	FillEntryFormParameter entry = new FillEntryFormParameter("", "", "", null, "", "", null, null);
-	
-    entry.firstName = "Ivan";
-    entry.lastName = "Ivanov";
-    entry.address = "Russia";
- 	
-    EnterPhonesParameter allPhones = new EnterPhonesParameter("", "", "");
-	entry.phones = allPhones;
-	
-	entry.email = "test@mail.ru";
-	entry.emailSecond = "-";
-	
-	EnterBirthDateParameter birth = new EnterBirthDateParameter("31","May", "1990");
-	entry.birthDate = birth;
-
-    EnterAdditionalInfoParameter addInfo = new EnterAdditionalInfoParameter("USSR","-");
-	entry.additInfo = addInfo;
-	app.getEntryHelper().fillEntryForm(entry);
-	app.getEntryHelper().submitEntryCreation();
-    app.getNavigationHelper().returnToMainPage();
+  public void createNonEmptyEntry() throws Exception {	  
+	  FillEntryFormParameter entry= new FillEntryFormParameter();
+	  entry.firstName="";
+	  entry.lastName="";
+	  app.getNavigationHelper().openMainPage(); 
+		// save old state
+	  List<FillEntryFormParameter> oldList = app.getEntryHelper().getEntries();
+	  app.getNavigationHelper().openEntyCreateModifyPage();
+	  //actions
+	  app.getEntryHelper().fillEntryForm(entry);
+	  app.getEntryHelper().submitEntryCreation();
+	  app.getNavigationHelper().returnToMainPage();
+	  //save new state
+	  List<FillEntryFormParameter> newList = app.getEntryHelper().getEntries();
+	  //compare
+	  oldList.add(entry);
+	  Collections.sort(oldList);
+	  Collections.sort(newList);
+	  AssertJUnit.assertEquals(newList, oldList);
   }
-  
+ 
   @Test
   public void modifyEntry() throws Exception {
 		app.getNavigationHelper().openMainPage();
-		app.getEntryHelper().chooseEntryForModification(1);
-
+		// save old state
+		List<FillEntryFormParameter> oldList = app.getEntryHelper().getEntries();
+		//actions
+		app.getEntryHelper().chooseEntryForModification(0);
 		FillEntryFormParameter entry = new FillEntryFormParameter();
-		
 	    entry.firstName = "Vasya";
-	    
+	    entry.lastName= "Pupkin";
 		app.getEntryHelper().fillEntryForm(entry);
 		app.getEntryHelper().submitEntryModification();
 	    app.getNavigationHelper().returnToMainPage();
-	      
-	  }
+	    //save new state
+	    List<FillEntryFormParameter> newList = app.getEntryHelper().getEntries();
+	    //compare
+	    oldList.remove(0);
+	    oldList.add(entry);
+	    Collections.sort(oldList);
+	    Collections.sort(newList);
+	    AssertJUnit.assertEquals(newList, oldList);  
+	}
+  
+    @Test
+    public void compareSearchCountAndEntriesCount () {
+    	app.getNavigationHelper().openMainPage(); 
+    	AssertJUnit.assertEquals(app.getEntryHelper().getSearchCount(), app.getEntryHelper().getEntries().size());
+    }
 
 }

@@ -1,5 +1,8 @@
 package com.example.fw;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.openqa.selenium.By;
 
 import com.example.tests.EnterAdditionalInfoParameter;
@@ -137,7 +140,25 @@ public class EntryHelper  extends HelperBase{
 	}
 
 	public void chooseEntryForModification(int index) {
-		click(By.xpath("//tr[@name='entry']["+index+"]/td/a/img[@title='Edit']/.."));
+		click(By.xpath("//tr[@name='entry']["+(index+1)+"]/td/a/img[@title='Edit']/.."));
 	}
+
+	public List<FillEntryFormParameter> getEntries() {
+		List<FillEntryFormParameter> entries = new ArrayList<FillEntryFormParameter>();
+		int numberOfEntries = driver.findElements(By.xpath("//tr[@name='entry']")).size();
+		for (int i = 0; i < numberOfEntries; i++) {
+			FillEntryFormParameter entry = new FillEntryFormParameter();
+			entry.firstName  = driver.findElement(By.xpath("//tr[@name='entry']["+(i+1)+"]/td[3]")).getText();
+			entry.lastName  =  driver.findElement(By.xpath("//tr[@name='entry']["+(i+1)+"]/td[2]")).getText();
+			entries.add(entry);
+		}
+		return entries;
+	}
+
+	public int getSearchCount() {
+		int searchCount = Integer.parseInt(driver.findElement(By.id("search_count")).getText());
+		return searchCount;	
+	}
+
 
 }

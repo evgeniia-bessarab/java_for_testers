@@ -8,4 +8,5 @@ public class EnterAdditionalInfoParameter {
 		this.address = address;
 		this.phone = phone;
 	}
+	
 }
