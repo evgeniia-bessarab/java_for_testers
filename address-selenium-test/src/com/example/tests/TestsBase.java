@@ -45,19 +45,19 @@ public class TestsBase {
 	public Iterator<Object[]> randomEntryGenerator() {
 		 List<Object[]> list = new ArrayList<Object[]>();
 		 
-		 for(int i=0; i<2;i++) {
+		 for(int i=0; i<1;i++) {
 			 FillEntryFormParameter entry = new FillEntryFormParameter();
 			 entry.firstName = generateNonEmptyRandomString();
 			 entry.lastName = generateNonEmptyRandomString();
-			// entry.address = generateNonEmptyRandomString();
-			// entry.emailSecond = generateNonEmptyRandomString();
+			 entry.address = generateNonEmptyRandomString();
+			 entry.emailSecond = generateNonEmptyRandomString();
 			 entry.email = generateNonEmptyRandomString();
-			/* birthDate=new EnterBirthDateParameter(generateRandomNumberDay(), generateRandomNumberMonth(), generateRandomNumberYear());
+			 EnterBirthDateParameter birthDate=new EnterBirthDateParameter(generateRandomNumberDay(), generateRandomNumberMonth(), generateRandomNumberYear());
 			 entry.birthDate = birthDate;
 			 EnterPhonesParameter phones=new EnterPhonesParameter(generateRandomString(), generateRandomString(), generateRandomString());
 			 entry.phones = phones;
 			 EnterAdditionalInfoParameter addInfo=new EnterAdditionalInfoParameter(generateRandomString(), generateRandomString());
-		     entry.additInfo = addInfo;*/
+		     entry.additInfo = addInfo;
 			 list.add(new Object[]{entry});
 		 }
 		 return list.iterator();

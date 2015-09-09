@@ -62,12 +62,12 @@ public class FillEntryFormParameter implements Comparable<FillEntryFormParameter
 				return false;
 		} else if (!additInfo.equals(other.additInfo))
 			return false;*/
-		if (address == null) {
+		/*if (address == null) {
 			if (other.address != null)
 				return false;
 		} else if (!address.equals(other.address))
 			return false;
-		/*if (birthDate == null) {
+		 (birthDate == null) {
 			if (other.birthDate != null)
 				return false;
 		} else if (!birthDate.equals(other.birthDate))
@@ -76,11 +76,6 @@ public class FillEntryFormParameter implements Comparable<FillEntryFormParameter
 			if (other.email != null)
 				return false;
 		} else if (!email.equals(other.email))
-			return false;
-		if (emailSecond == null) {
-			if (other.emailSecond != null)
-				return false;
-		} else if (!emailSecond.equals(other.emailSecond))
 			return false;
 		if (firstName == null) {
 			if (other.firstName != null)

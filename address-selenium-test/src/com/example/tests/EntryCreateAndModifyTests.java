@@ -25,7 +25,7 @@ public class EntryCreateAndModifyTests extends TestsBase{
 	  Collections.sort(newList);
 	  AssertJUnit.assertEquals(newList, oldList);
   }
- 
+
   @Test(dataProvider = "randomEntryGenerator")
   public void modifyEntry(FillEntryFormParameter entry) throws Exception {
 		app.getNavigationHelper().openMainPage();
