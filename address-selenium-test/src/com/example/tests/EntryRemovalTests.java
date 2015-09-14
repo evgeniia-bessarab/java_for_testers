@@ -1,28 +1,28 @@
 package com.example.tests;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.Random;
 
-import org.testng.AssertJUnit;
 import org.testng.annotations.Test;
+
+import com.example.utils.SortedListOf;
+
+import static org.junit.Assert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 public class EntryRemovalTests extends TestsBase {
 	  @Test
 	  public void deleteEntry() throws Exception {
-		    app.getNavigationHelper().openMainPage();
+		    app.navigateTo().mainPage();
 		    // save old state
-			List<FillEntryFormParameter> oldList = app.getEntryHelper().getEntries();
+			SortedListOf<FillEntryFormParameter> oldList = app.getEntryHelper().getEntries();
 			//action
-			app.getEntryHelper().chooseEntryForModification(0);
-			app.getEntryHelper().submitEntryDelete();
-		    app.getNavigationHelper().returnToMainPage();
+			Random rnd=new Random();
+		 	int index= rnd.nextInt(oldList.size()-1);
+			app.getEntryHelper().deleteEntry(index);
 		    //save new state
-		    List<FillEntryFormParameter> newList = app.getEntryHelper().getEntries();
+			SortedListOf<FillEntryFormParameter> newList = app.getEntryHelper().getEntries();
 		    //compare
-		    oldList.remove(0);
-		    Collections.sort(oldList);
-		    Collections.sort(newList);
-		    AssertJUnit.assertEquals(newList, oldList);
+			assertThat(newList, equalTo(oldList.without(index)));
 		      
 	  }
 

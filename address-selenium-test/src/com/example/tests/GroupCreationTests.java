@@ -2,37 +2,35 @@ package com.example.tests;
 
 
 import org.testng.AssertJUnit;
-import java.util.Collections;
-import java.util.List;
 import org.testng.annotations.Test;
+import static org.junit.Assert.assertThat;
+import static org.hamcrest.Matchers.*;
+
+import com.example.utils.SortedListOf;
+
 
 public class GroupCreationTests extends TestsBase{
  
   @Test(dataProvider = "randomValidGroupGenerator")
   public void testGroupCreationWithValidData(GroupData group) throws Exception {
-	app.getNavigationHelper().openMainPage();
-	app.getNavigationHelper().openGroupsPage();
 	// save old state
-	List<GroupData> oldList = app.getGroupHelper().getGroups();
+	
+	SortedListOf<GroupData> oldList = app.getGroupHelper().getGroups();
 	//actions
-	app.getGroupHelper().initNewGroupCreation();
-    app.getGroupHelper().fillGroupForm(group);
-    app.getGroupHelper().submitGroupCreation();
-    app.getGroupHelper().returnToGroupsPage();
+	app.getGroupHelper().createGroup(group);
+
     //save new state
-    List<GroupData> newList = app.getGroupHelper().getGroups();
+	SortedListOf<GroupData> newList = app.getGroupHelper().getGroups();
     //compare
-    oldList.add(group);
-    Collections.sort(oldList);
-    AssertJUnit.assertEquals(newList, oldList);
+    assertThat(newList, equalTo(oldList.withAdded(group)));
   }
 
   @Test
   public void testEmptyGroupCreation() throws Exception {
-	app.getNavigationHelper().openMainPage();
-	app.getNavigationHelper().openGroupsPage();
+	app.navigateTo().mainPage();
+	app.navigateTo().groupsPage();
 	// save old state
-	List<GroupData> oldList = app.getGroupHelper().getGroups();
+	SortedListOf<GroupData> oldList = app.getGroupHelper().getGroups();
 	GroupData group = new GroupData("","","");
 	//actions
 	app.getGroupHelper().initNewGroupCreation();
@@ -40,11 +38,9 @@ public class GroupCreationTests extends TestsBase{
     app.getGroupHelper().submitGroupCreation();
     app.getGroupHelper().returnToGroupsPage();
     //save new state
-    List<GroupData> newList = app.getGroupHelper().getGroups();
+    SortedListOf<GroupData> newList = app.getGroupHelper().getGroups();
     //compare
-    oldList.add(group);
-    Collections.sort(oldList);
-    AssertJUnit.assertEquals(newList, oldList);
+    assertThat(newList, equalTo(oldList.withAdded(group)));
     
   }
 }

@@ -1,14 +1,14 @@
 package com.example.tests;
 
 public class FillEntryFormParameter implements Comparable<FillEntryFormParameter> {
-	public String firstName;
-	public String lastName;
-	public String address;
-	public EnterPhonesParameter phones;
-	public String email;
-	public String emailSecond;
-	public EnterBirthDateParameter birthDate;
-	public EnterAdditionalInfoParameter additInfo;
+	private String firstName;
+	private String lastName;
+	private String address;
+	private EnterPhonesParameter phones;
+	private String email;
+	private String emailSecond;
+	private EnterBirthDateParameter birthDate;
+	private EnterAdditionalInfoParameter additInfo;
 
 	public FillEntryFormParameter(String firstName, String lastName, String address, EnterPhonesParameter phones,
 			String email, String emailSecond, EnterBirthDateParameter birthDate,
@@ -24,7 +24,6 @@ public class FillEntryFormParameter implements Comparable<FillEntryFormParameter
 	}
 
 	public FillEntryFormParameter() {
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -57,21 +56,6 @@ public class FillEntryFormParameter implements Comparable<FillEntryFormParameter
 		if (getClass() != obj.getClass())
 			return false;
 		FillEntryFormParameter other = (FillEntryFormParameter) obj;
-		/*if (additInfo == null) {
-			if (other.additInfo != null)
-				return false;
-		} else if (!additInfo.equals(other.additInfo))
-			return false;*/
-		/*if (address == null) {
-			if (other.address != null)
-				return false;
-		} else if (!address.equals(other.address))
-			return false;
-		 (birthDate == null) {
-			if (other.birthDate != null)
-				return false;
-		} else if (!birthDate.equals(other.birthDate))
-			return false;*/
 		if (email == null) {
 			if (other.email != null)
 				return false;
@@ -87,11 +71,6 @@ public class FillEntryFormParameter implements Comparable<FillEntryFormParameter
 				return false;
 		} else if (!lastName.equals(other.lastName))
 			return false;
-		/*if (phones == null) {
-			if (other.phones != null)
-				return false;
-		} else if (!phones.equals(other.phones))
-			return false;*/
 		return true;
 	}
 
@@ -99,6 +78,78 @@ public class FillEntryFormParameter implements Comparable<FillEntryFormParameter
 	public int compareTo(FillEntryFormParameter other) {
 			return this.firstName.toLowerCase().compareTo(other.firstName.toLowerCase());
 
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public EnterPhonesParameter getPhones() {
+		return phones;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public String getEmailSecond() {
+		return emailSecond;
+	}
+
+	public EnterBirthDateParameter getBirthDate() {
+		return birthDate;
+	}
+
+	public EnterAdditionalInfoParameter getAdditInfo() {
+		return additInfo;
+	}
+
+	public FillEntryFormParameter withFirstName(String firstName) {
+		this.firstName = firstName;
+		return this;
+	}
+
+	public FillEntryFormParameter withLastName(String lastName) {
+		this.lastName = lastName;
+		return this;
+	}
+
+	public FillEntryFormParameter withAddress(String address) {
+		this.address = address;
+		return this;
+	}
+
+	public FillEntryFormParameter withEmailSecond(String emailSecond) {
+		this.emailSecond = emailSecond;
+		return this;
+	}
+
+	public FillEntryFormParameter withEmail(String email) {
+		this.email = email;
+		return this;
+	}
+
+	public FillEntryFormParameter withBirthDate(EnterBirthDateParameter birthDate) {
+		this.birthDate = birthDate;
+		return this;
+	}
+
+	public FillEntryFormParameter withPhones(EnterPhonesParameter phones) {
+		this.phones = phones;
+		return this;
+	}
+
+	public FillEntryFormParameter withAdditInfo(EnterAdditionalInfoParameter addInfo) {
+		this.additInfo = addInfo;
+		return null;
 	}
 	
 	

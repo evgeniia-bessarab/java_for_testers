@@ -1,14 +1,13 @@
 package com.example.fw;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import org.openqa.selenium.By;
-
 import com.example.tests.EnterAdditionalInfoParameter;
 import com.example.tests.EnterBirthDateParameter;
 import com.example.tests.EnterPhonesParameter;
 import com.example.tests.FillEntryFormParameter;
+
+import com.example.utils.SortedListOf;
 
 public class EntryHelper  extends HelperBase{
 
@@ -16,45 +15,96 @@ public class EntryHelper  extends HelperBase{
 		super(manager);
 	}
 
-	public void submitEntryCreation() {
+	private SortedListOf<FillEntryFormParameter> cachedEntries;
+	
+	private void rebuildCache() {
+		SortedListOf<FillEntryFormParameter> cachedEntries = new SortedListOf<FillEntryFormParameter>();
+		int numberOfEntries = driver.findElements(By.xpath("//tr[@name='entry']")).size();
+		for (int i = 0; i < numberOfEntries; i++) {
+			FillEntryFormParameter entry = new FillEntryFormParameter();
+			entry.withFirstName(driver.findElement(By.xpath("//tr[@name='entry']["+(i+1)+"]/td[3]")).getText());
+			entry.withLastName(driver.findElement(By.xpath("//tr[@name='entry']["+(i+1)+"]/td[2]")).getText());
+			entry.withEmail(driver.findElement(By.xpath("//tr[@name='entry']["+(i+1)+"]/td[4]")).getText());
+			cachedEntries.add(entry);
+		}
+	}
+	public SortedListOf<FillEntryFormParameter> getEntries() {
+		if (cachedEntries == null) {
+			rebuildCache();
+		}
+		return cachedEntries;
+	}
+	
+	public EntryHelper createEntry(FillEntryFormParameter entry) {
+		  manager.navigateTo().openEntyCreateModifyPage();  
+		  fillEntryForm(entry);
+		  submitEntryCreation();
+		  manager.navigateTo().returnToMainPage();
+		  rebuildCache();
+		  return this;
+		
+	}
+	
+	public EntryHelper modifyEntry(int index, FillEntryFormParameter entry) {
+		chooseEntryForModification(index);
+		fillEntryForm(entry);
+		submitEntryModification();
+	    manager.navigateTo().returnToMainPage();	
+	    rebuildCache();
+	    return this;
+	}
+	
+
+	public EntryHelper deleteEntry(int index) {
+		chooseEntryForModification(index);
+		submitEntryDelete();
+	    manager.navigateTo().returnToMainPage();
+	    rebuildCache();
+	    return this;
+		
+	}
+	
+	public EntryHelper submitEntryCreation() {
 		click(By.name("submit"));
+		cachedEntries = null;
+		return this;
 	}
 
-	public void fillEntryForm(FillEntryFormParameter parameterObject) {	
-		if(parameterObject.firstName != null) {
-			enterFirstName(parameterObject.firstName);
+	public EntryHelper fillEntryForm(FillEntryFormParameter parameterObject) {	
+		if(parameterObject.getFirstName() != null) {
+			enterFirstName(parameterObject.getFirstName());
 		}
 		
-		if(parameterObject.lastName != null) {
-			enterLastName(parameterObject.lastName);
+		if(parameterObject.getLastName() != null) {
+			enterLastName(parameterObject.getLastName());
 		}
 		
-		if(parameterObject.address != null) {
-			enterAdress(parameterObject.address);
+		if(parameterObject.getAddress() != null) {
+			enterAdress(parameterObject.getAddress());
 		}
 		
-		if(parameterObject.phones != null) {
-			enterPhones(parameterObject.phones);
+		if(parameterObject.getPhones() != null) {
+			enterPhones(parameterObject.getPhones());
 		}
 		
-		if(parameterObject.email != null) {
-		    enterEmail(parameterObject.email);
+		if(parameterObject.getEmail() != null) {
+		    enterEmail(parameterObject.getEmail());
 		}
 		
-		if(parameterObject.emailSecond != null) {
-			enterSecondEmail(parameterObject.emailSecond);
+		if(parameterObject.getEmailSecond() != null) {
+			enterSecondEmail(parameterObject.getEmailSecond());
 		}
 	    
-		if(parameterObject.birthDate != null) {
-			enterBirthDate(parameterObject.birthDate);
+		if(parameterObject.getBirthDate() != null) {
+			enterBirthDate(parameterObject.getBirthDate());
 		}
-		if(parameterObject.additInfo != null) {
-			enterAdditionalInfo(parameterObject.additInfo);
+		if(parameterObject.getAdditInfo() != null) {
+			enterAdditionalInfo(parameterObject.getAdditInfo());
 		}
-	    
+		return this;
 	}
 
-	public void enterAdditionalInfo(EnterAdditionalInfoParameter parameterObject) {
+	public EntryHelper enterAdditionalInfo(EnterAdditionalInfoParameter parameterObject) {
 		if(parameterObject.address != null) {
 			enterSecondAdress(parameterObject.address);
 		}
@@ -62,21 +112,25 @@ public class EntryHelper  extends HelperBase{
 		if(parameterObject.phone != null) {
 			enterSecondPhone(parameterObject.phone);   
 		}
+		return this;
 	}
 
-	public void enterSecondAdress(String address2) {
+	public EntryHelper enterSecondAdress(String address2) {
 		type(By.name("address2"), address2);
+		return this;
 	}
 
-	public void enterSecondPhone(String phone2) {
+	public EntryHelper enterSecondPhone(String phone2) {
 		type(By.name("phone2"), phone2);
+		return this;
 	}
 
-	public void enterSecondEmail(String emailSecond) {
+	public EntryHelper enterSecondEmail(String emailSecond) {
 		type(By.name("email2"), emailSecond);
+		return this;
 	}
 
-	public void enterBirthDate(EnterBirthDateParameter parameterObject) {
+	public EntryHelper enterBirthDate(EnterBirthDateParameter parameterObject) {
 		if(parameterObject.day != null) {
 			selectByText(By.name("bday"),parameterObject.day);
 		}
@@ -86,13 +140,15 @@ public class EntryHelper  extends HelperBase{
 		if(parameterObject.year != null) {
 			type(By.name("byear"), parameterObject.year);
 		}
+		return this;
 	}
 
-	public void enterEmail(String email) {
+	public EntryHelper enterEmail(String email) {
 	    type(By.name("email"), email);
+	    return this;
 	}
 
-	public void enterPhones(EnterPhonesParameter parameterObject) {
+	public EntryHelper enterPhones(EnterPhonesParameter parameterObject) {
 		if(parameterObject.work != null) {
 			enterPhoneWork(parameterObject.work);
 		}
@@ -102,64 +158,62 @@ public class EntryHelper  extends HelperBase{
 		if(parameterObject.home != null) {
 			enterPhoneHome(parameterObject.home);
 		}
+		return this;
 	}
 
-	public void enterPhoneWork(String workPhone) {
+	public EntryHelper enterPhoneWork(String workPhone) {
 	    type(By.name("work"), workPhone);
+	    return this;
 	}
 
-	public void enterPhoneHome(String homePhone) {
+	public EntryHelper enterPhoneHome(String homePhone) {
 	    type(By.name("home"), homePhone);
+	    return this;
 	}
 
-	public void enterPhoneMobile(String mobilePhone) {
+	public EntryHelper enterPhoneMobile(String mobilePhone) {
 	    type(By.name("mobile"), mobilePhone);
+	    return this;
 	}
 
-	public void enterAdress(String address) {
+	public EntryHelper enterAdress(String address) {
 	    type(By.name("address"), address);
+	    return this;
 	}
 
-	public void enterLastName(String lastname) {
+	public EntryHelper enterLastName(String lastname) {
 	    type(By.name("lastname"), lastname);
+	    return this;
 	}
 
-	public void enterFirstName(String firstname) {
+	public EntryHelper enterFirstName(String firstname) {
 	    type(By.name("firstname"), firstname);
+	    return this;
 	}
 
 
-	public void submitEntryModification() {
+	public EntryHelper submitEntryModification() {
 		click(By.name("update"));
-		
+		cachedEntries = null;
+		return this;		
 	}
 	
-	public void submitEntryDelete() {
+	public EntryHelper submitEntryDelete() {
 	    click(By.xpath("//input[@value='Delete']"));
+	    return this;
 		
 	}
 
-	public void chooseEntryForModification(int index) {
+	public EntryHelper chooseEntryForModification(int index) {
 		click(By.xpath("//tr[@name='entry']["+(index+1)+"]/td/a/img[@title='Edit']/.."));
+		return this;
 	}
 
-	public List<FillEntryFormParameter> getEntries() {
-		List<FillEntryFormParameter> entries = new ArrayList<FillEntryFormParameter>();
-		int numberOfEntries = driver.findElements(By.xpath("//tr[@name='entry']")).size();
-		for (int i = 0; i < numberOfEntries; i++) {
-			FillEntryFormParameter entry = new FillEntryFormParameter();
-			entry.firstName  = driver.findElement(By.xpath("//tr[@name='entry']["+(i+1)+"]/td[3]")).getText();
-			entry.lastName  =  driver.findElement(By.xpath("//tr[@name='entry']["+(i+1)+"]/td[2]")).getText();
-			entry.email  =  driver.findElement(By.xpath("//tr[@name='entry']["+(i+1)+"]/td[4]")).getText();
-			entries.add(entry);
-		}
-		return entries;
-	}
+
 
 	public int getSearchCount() {
 		int searchCount = Integer.parseInt(driver.findElement(By.id("search_count")).getText());
 		return searchCount;	
 	}
-
 
 }

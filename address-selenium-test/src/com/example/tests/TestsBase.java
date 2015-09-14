@@ -32,37 +32,38 @@ public class TestsBase {
 		 List<Object[]> list = new ArrayList<Object[]>();
 		 
 		 for(int i=0; i<5;i++) {
-			 GroupData group = new GroupData();
-			 group.groupname=generateRandomString();
-			 group.header=generateRandomString();
-			 group.footer=generateRandomString();
+			 GroupData group = new GroupData()
+			 .withName(generateRandomString())
+			 .withHeader(generateRandomString())
+			 .withFooter(generateRandomString());
 			 list.add(new Object[]{group});
 		 }
 		 return list.iterator();
 	}
 	
+
 	@DataProvider	
 	public Iterator<Object[]> randomEntryGenerator() {
 		 List<Object[]> list = new ArrayList<Object[]>();
 		 
 		 for(int i=0; i<1;i++) {
-			 FillEntryFormParameter entry = new FillEntryFormParameter();
-			 entry.firstName = generateNonEmptyRandomString();
-			 entry.lastName = generateNonEmptyRandomString();
-			 entry.address = generateNonEmptyRandomString();
-			 entry.emailSecond = generateNonEmptyRandomString();
-			 entry.email = generateNonEmptyRandomString();
 			 EnterBirthDateParameter birthDate=new EnterBirthDateParameter(generateRandomNumberDay(), generateRandomNumberMonth(), generateRandomNumberYear());
-			 entry.birthDate = birthDate;
 			 EnterPhonesParameter phones=new EnterPhonesParameter(generateRandomString(), generateRandomString(), generateRandomString());
-			 entry.phones = phones;
 			 EnterAdditionalInfoParameter addInfo=new EnterAdditionalInfoParameter(generateRandomString(), generateRandomString());
-		     entry.additInfo = addInfo;
+			 FillEntryFormParameter entry = new FillEntryFormParameter()
+			 .withFirstName(generateNonEmptyRandomString())
+			 .withLastName(generateNonEmptyRandomString())
+			 .withAddress(generateNonEmptyRandomString())
+			 .withEmailSecond(generateNonEmptyRandomString())
+			 .withEmail(generateNonEmptyRandomString())
+			 .withBirthDate(birthDate)			 
+			 .withPhones(phones)
+			 .withAdditInfo(addInfo);
 			 list.add(new Object[]{entry});
 		 }
 		 return list.iterator();
 	}
-	public String generateNonEmptyRandomString() {
+	protected String generateNonEmptyRandomString() {
 		Random rnd =new Random();
 		return "test"+rnd.nextInt();
 }
@@ -74,7 +75,7 @@ public class TestsBase {
 					 return "test"+rnd.nextInt();
 			 }	
 	}
-	public String generateRandomNumberDay() {
+	protected String generateRandomNumberDay() {
 		Random rnd =new Random();
 		return Integer.toString(rnd.nextInt(31));
 	}

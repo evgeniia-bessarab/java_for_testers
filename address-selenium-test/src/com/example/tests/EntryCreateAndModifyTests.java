@@ -1,54 +1,48 @@
 package com.example.tests;
 
 import org.testng.annotations.Test;
-import org.testng.AssertJUnit;
-import java.util.Collections;
-import java.util.List;
 
+import com.example.utils.SortedListOf;
+
+import org.testng.AssertJUnit;
+import java.util.Random;
+
+import static org.junit.Assert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 public class EntryCreateAndModifyTests extends TestsBase{
   @Test(dataProvider = "randomEntryGenerator")
   public void testEntryCreationWithValidData(FillEntryFormParameter entry) throws Exception {
-	  app.getNavigationHelper().openMainPage(); 
+	  
 		// save old state
-	  List<FillEntryFormParameter> oldList = app.getEntryHelper().getEntries();
-	  app.getNavigationHelper().openEntyCreateModifyPage();
+	  SortedListOf<FillEntryFormParameter> oldList = app.getEntryHelper().getEntries();
 	  //actions
-	  app.getEntryHelper().fillEntryForm(entry);
-	  app.getEntryHelper().submitEntryCreation();
-	  app.getNavigationHelper().returnToMainPage();
+	  app.getEntryHelper().createEntry(entry);
 	  //save new state
-	  List<FillEntryFormParameter> newList = app.getEntryHelper().getEntries();
+	  SortedListOf<FillEntryFormParameter> newList = app.getEntryHelper().getEntries();
 	  //compare
-	  oldList.add(entry);
-	  Collections.sort(oldList);
-	  Collections.sort(newList);
-	  AssertJUnit.assertEquals(newList, oldList);
+	  assertThat(newList, equalTo(oldList.withAdded(entry)));
   }
 
   @Test(dataProvider = "randomEntryGenerator")
   public void modifyEntry(FillEntryFormParameter entry) throws Exception {
-		app.getNavigationHelper().openMainPage();
+		app.navigateTo().mainPage();
 		// save old state
-		List<FillEntryFormParameter> oldList = app.getEntryHelper().getEntries();
+		SortedListOf<FillEntryFormParameter> oldList = app.getEntryHelper().getEntries();
 		//actions
-		app.getEntryHelper().chooseEntryForModification(0);
-		app.getEntryHelper().fillEntryForm(entry);
-		app.getEntryHelper().submitEntryModification();
-	    app.getNavigationHelper().returnToMainPage();
+		Random rnd=new Random();
+	 	int index= rnd.nextInt(oldList.size()-1);
+	 	
+		app.getEntryHelper().modifyEntry(index,entry);
 	    //save new state
-	    List<FillEntryFormParameter> newList = app.getEntryHelper().getEntries();
+		SortedListOf<FillEntryFormParameter> newList = app.getEntryHelper().getEntries();
 	    //compare
-	    oldList.remove(0);
-	    oldList.add(entry);
-	    Collections.sort(oldList);
-	    Collections.sort(newList);
-	    AssertJUnit.assertEquals(newList, oldList);  
+	     assertThat(newList, equalTo(oldList.without(index).withAdded(entry)));
 	}
   
     @Test
     public void compareSearchCountAndEntriesCount () {
-    	app.getNavigationHelper().openMainPage(); 
+    	app.navigateTo().mainPage(); 
     	AssertJUnit.assertEquals(app.getEntryHelper().getSearchCount(), app.getEntryHelper().getEntries().size());
     }
 
