@@ -16,13 +16,23 @@ public class EntryRemovalTests extends TestsBase {
 		    // save old state
 			SortedListOf<FillEntryFormParameter> oldList = app.getEntryHelper().getEntries();
 			//action
-			Random rnd=new Random();
-		 	int index= rnd.nextInt(oldList.size()-1);
-			app.getEntryHelper().deleteEntry(index);
-		    //save new state
-			SortedListOf<FillEntryFormParameter> newList = app.getEntryHelper().getEntries();
-		    //compare
-			assertThat(newList, equalTo(oldList.without(index)));
+			if (oldList.size()>=0) {
+				int index;
+				if(oldList.size()==1){
+					index=0;
+				}
+				else {
+					Random rnd=new Random();
+					index= rnd.nextInt(oldList.size()-1);
+				}
+				app.getEntryHelper().deleteEntry(index);
+			    //save new state
+				SortedListOf<FillEntryFormParameter> newList = app.getEntryHelper().getEntries();
+			    //compare
+				
+				assertThat(newList, equalTo(oldList.without(index)));
+			}
+
 		      
 	  }
 

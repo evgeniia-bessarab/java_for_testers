@@ -54,4 +54,8 @@ public class NavigationHelper extends HelperBase{
 			}
 	}
 
+	public void printPhonesPage() {
+		click(By.linkText("print phones"));
+	}
+
 }

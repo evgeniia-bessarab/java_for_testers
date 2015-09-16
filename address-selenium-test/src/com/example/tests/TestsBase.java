@@ -48,7 +48,7 @@ public class TestsBase {
 		 
 		 for(int i=0; i<1;i++) {
 			 EnterBirthDateParameter birthDate=new EnterBirthDateParameter(generateRandomNumberDay(), generateRandomNumberMonth(), generateRandomNumberYear());
-			 EnterPhonesParameter phones=new EnterPhonesParameter(generateRandomString(), generateRandomString(), generateRandomString());
+			 EnterPhonesParameter phones=new EnterPhonesParameter(generateRandomString(), generateRandomString(), generateNonEmptyRandomString());
 			 EnterAdditionalInfoParameter addInfo=new EnterAdditionalInfoParameter(generateRandomString(), generateRandomString());
 			 FillEntryFormParameter entry = new FillEntryFormParameter()
 			 .withFirstName(generateNonEmptyRandomString())
@@ -65,7 +65,7 @@ public class TestsBase {
 	}
 	protected String generateNonEmptyRandomString() {
 		Random rnd =new Random();
-		return "test"+rnd.nextInt();
+		return "testlklklkl"+rnd.nextInt();
 }
 	public String generateRandomString() {
 			Random rnd =new Random();

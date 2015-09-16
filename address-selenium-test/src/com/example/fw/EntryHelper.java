@@ -18,13 +18,15 @@ public class EntryHelper  extends HelperBase{
 	private SortedListOf<FillEntryFormParameter> cachedEntries;
 	
 	private void rebuildCache() {
-		SortedListOf<FillEntryFormParameter> cachedEntries = new SortedListOf<FillEntryFormParameter>();
+		cachedEntries = new SortedListOf<FillEntryFormParameter>();
 		int numberOfEntries = driver.findElements(By.xpath("//tr[@name='entry']")).size();
 		for (int i = 0; i < numberOfEntries; i++) {
 			FillEntryFormParameter entry = new FillEntryFormParameter();
 			entry.withFirstName(driver.findElement(By.xpath("//tr[@name='entry']["+(i+1)+"]/td[3]")).getText());
 			entry.withLastName(driver.findElement(By.xpath("//tr[@name='entry']["+(i+1)+"]/td[2]")).getText());
 			entry.withEmail(driver.findElement(By.xpath("//tr[@name='entry']["+(i+1)+"]/td[4]")).getText());
+			EnterPhonesParameter  phone = new EnterPhonesParameter("", "", driver.findElement(By.xpath("//tr[@name='entry']["+(i+1)+"]/td[5]")).getText());
+			entry.withPhones(phone);
 			cachedEntries.add(entry);
 		}
 	}
@@ -33,6 +35,63 @@ public class EntryHelper  extends HelperBase{
 			rebuildCache();
 		}
 		return cachedEntries;
+	}
+	public SortedListOf<FillEntryFormParameter> getEntriesFromPrintPhones(int numberOfEntries) {
+		SortedListOf<FillEntryFormParameter> printPhonesEntries = new SortedListOf<FillEntryFormParameter>();
+
+		int numOfFullLines = numberOfEntries / 3;
+		int phonesInLastLine = numberOfEntries % 3;
+		
+		for (int i = 0; i <numOfFullLines; i++) {    
+			for (int j = 0; j <3; j++) { 
+			  String allText = driver.findElement(By.xpath("//tbody/tr["+(i+1)+"]/td[@valign='top']["+(j+1)+"]")).getText();
+			  String[] listData = allText.split("\\n");
+			  listData[0] = listData[0].replaceAll("[:]", "");
+			  String[] listName = listData[0].split("\\s+");
+			  String firstName=listName[0];
+			  String lastName=listName[1];
+			  String homePhone="";
+			  if(listData[1].matches("H:\\s\\S*")) {
+				  homePhone = listData[1].replaceAll("[H:\\s]", "");
+			  }
+			  
+			  FillEntryFormParameter entry = new FillEntryFormParameter();
+			  entry.withFirstName(firstName);
+			  entry.withLastName(lastName);
+			  EnterPhonesParameter  phone = new EnterPhonesParameter("", "", homePhone);
+			  entry.withPhones(phone);
+			  printPhonesEntries.add(entry);
+			}
+		}
+		if(phonesInLastLine > 0 ) {
+			for (int i = 0; i < phonesInLastLine; i++) { 
+
+			  String allText = driver.findElement(By.xpath("//tbody/tr["+(numOfFullLines+1)+"]/td[@valign='top']["+(i+1)+"]")).getText();
+			  String[] listData = allText.split("\\n");
+			  listData[0] = listData[0].replaceAll("[:]", "");
+			  String[] listName = listData[0].split("\\s+");
+			  String firstName=listName[0];
+			  String lastName=listName[1];
+			  String homePhone="";
+			  if(listData[1].matches("H:\\s\\S*")) {
+				  homePhone = listData[1].replaceAll("[H:\\s]", "");
+			  }
+			  
+			  FillEntryFormParameter entry = new FillEntryFormParameter();
+			  entry.withFirstName(firstName);
+			  entry.withLastName(lastName);
+			  EnterPhonesParameter  phone = new EnterPhonesParameter("", "", homePhone);
+			  entry.withPhones(phone);
+			  printPhonesEntries.add(entry);
+			}
+		}
+		System.out.println(printPhonesEntries);
+		return  printPhonesEntries;
+	}
+	
+	public int getNumberPrintPhones() {
+		int numberOfEntries = driver.findElements(By.xpath("//td[@valign='top' and contains(.,'Birthday:')]")).size();
+		return numberOfEntries;
 	}
 	
 	public EntryHelper createEntry(FillEntryFormParameter entry) {
@@ -200,6 +259,7 @@ public class EntryHelper  extends HelperBase{
 	
 	public EntryHelper submitEntryDelete() {
 	    click(By.xpath("//input[@value='Delete']"));
+	    cachedEntries = null;
 	    return this;
 		
 	}
@@ -215,5 +275,6 @@ public class EntryHelper  extends HelperBase{
 		int searchCount = Integer.parseInt(driver.findElement(By.id("search_count")).getText());
 		return searchCount;	
 	}
+
 
 }

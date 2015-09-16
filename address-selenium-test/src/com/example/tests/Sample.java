@@ -49,6 +49,15 @@ public class Sample {
 		b = b.trim();
 		System.out.println(b);		
 		
+		
+		b="testlklklkl-476655464 testlklklkl-1136386185:\rH: testlklklkl12485391\rBirthday: 10. February 1952";
+		list = b.split("\\r+");
+		
+		System.out.println(list.length);
+		System.out.println(list[0]);
+		System.out.println(list[1]);
+		System.out.println(list[2]);
+		
 	}
 
 }

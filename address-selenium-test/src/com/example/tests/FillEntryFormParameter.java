@@ -29,7 +29,7 @@ public class FillEntryFormParameter implements Comparable<FillEntryFormParameter
 	@Override
 	public String toString() {
 		return "FillEntryFormParameter [firstName=" + firstName + ", lastName=" + lastName + ", address=" + address
-				+  ", email=" + email + ", emailSecond=" + emailSecond + "]";
+				+  ", email=" + email + ", home phones=" + phones.home + "]";
 	}
 
 	@Override
@@ -56,11 +56,23 @@ public class FillEntryFormParameter implements Comparable<FillEntryFormParameter
 		if (getClass() != obj.getClass())
 			return false;
 		FillEntryFormParameter other = (FillEntryFormParameter) obj;
-		if (email == null) {
-			if (other.email != null)
+		
+	/*	String emailCheck = deleteSpaces(email);
+		String emailObjCheck = deleteSpaces(other.email);
+		if (emailCheck == null) {
+			if (emailObjCheck != null)
 				return false;
-		} else if (!email.equals(other.email))
+		} else if (!emailCheck.equals(emailObjCheck))
 			return false;
+		*/
+		//String home = deleteSpaces(phones.home);
+		//String homeObj = deleteSpaces(other.phones.home);
+		if (phones.home == null) {
+			if (other.phones.home != null)
+				return false;
+		} else if (!phones.home.equals(other.phones.home))
+			return false;
+		
 		if (firstName == null) {
 			if (other.firstName != null)
 				return false;
@@ -74,12 +86,21 @@ public class FillEntryFormParameter implements Comparable<FillEntryFormParameter
 		return true;
 	}
 
+	private String deleteSpaces(String anyString) {
+		System.out.println(anyString);
+		anyString = anyString.trim();
+		anyString = anyString.replaceAll("[ ]", "");
+		System.out.println(anyString);
+		return anyString;
+	}
+
 	@Override
 	public int compareTo(FillEntryFormParameter other) {
-			return this.firstName.toLowerCase().compareTo(other.firstName.toLowerCase());
+			return this.lastName.toLowerCase().compareTo(other.lastName.toLowerCase());
 
 	}
 
+	
 	public String getFirstName() {
 		return firstName;
 	}
@@ -149,7 +170,7 @@ public class FillEntryFormParameter implements Comparable<FillEntryFormParameter
 
 	public FillEntryFormParameter withAdditInfo(EnterAdditionalInfoParameter addInfo) {
 		this.additInfo = addInfo;
-		return null;
+		return this;
 	}
 	
 	

@@ -27,7 +27,7 @@ public class GroupModificationsTests extends TestsBase{
 	     //oldList.remove(index);
 	     //oldList.add(group);
 	     //Assert.assertEquals(newList, oldList);
-	     assertThat(newList, equalTo(oldList.without(index).withAdded(group)));
+	     assertThat(oldList, equalTo(newList.without(index).withAdded(group)));
 	     
 	 }
 
