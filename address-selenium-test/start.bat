@@ -1,0 +1,3 @@
+rem java -cp bin com.example.tests.GroupDataGenerator 10 groups.txt csv
+rem java -cp bin;C:\GIT_HUB\java_for_testers\xstream-1.4.8\lib\xstream-1.4.8.jar;C:\GIT_HUB\java_for_testers\xstream-1.4.8\lib\xstream\xpp3_min-1.1.4c.jar com.example.tests.GroupDataGenerator 10 groups.txt csv
+java -cp bin;C:\GIT_HUB\java_for_testers\xstream-1.4.8\lib\xstream-1.4.8.jar;C:\GIT_HUB\java_for_testers\xstream-1.4.8\lib\xstream\xpp3_min-1.1.4c.jar;C:\GIT_HUB\java_for_testers\xstream-1.4.8\lib\xstream\xmlpull-1.1.3.1.jar;C:\GIT_HUB\java_for_testers\selenium\selenium-server-standalone-2.47.1.jar org.testng.TestNG testng-customsuite.xml
