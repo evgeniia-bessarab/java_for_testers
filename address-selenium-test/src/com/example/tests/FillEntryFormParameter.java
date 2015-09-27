@@ -94,7 +94,6 @@ public class FillEntryFormParameter implements Comparable<FillEntryFormParameter
 		return anyString;
 	}
 
-	@Override
 	public int compareTo(FillEntryFormParameter other) {
 			return this.lastName.toLowerCase().compareTo(other.lastName.toLowerCase());
 

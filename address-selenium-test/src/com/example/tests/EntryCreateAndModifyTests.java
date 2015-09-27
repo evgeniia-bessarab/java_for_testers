@@ -4,23 +4,33 @@ import com.example.utils.SortedListOf;
 
 import static org.junit.Assert.assertThat;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Iterator;
 import java.util.Random;
 
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.AssertJUnit;
 
+import static com.example.tests.EntriesDataGenerator.loadEntriesFromXmlFile;
 import static org.hamcrest.Matchers.*;
 
 public class EntryCreateAndModifyTests extends TestsBase{
-
-   @Test
+	@DataProvider
+	public Iterator<Object[]> entriesFromFile() throws IOException {
+		return wrapEntriesForDataProvider(loadEntriesFromXmlFile(new File("entries.xml"))).iterator();
+	}
+	
+	
+    @Test
     public void compareSearchCountAndEntriesCount () {
     	app.navigateTo().mainPage(); 
     	AssertJUnit.assertEquals(app.getEntryHelper().getSearchCount(), app.getEntryHelper().getEntries().size());
     	
     }
 	
-  @Test(dataProvider = "randomEntryGenerator")
+  @Test(dataProvider = "entriesFromFile")
   public void testEntryCreationWithValidData(FillEntryFormParameter entry) throws Exception {
 	  
 		// save old state
@@ -33,7 +43,7 @@ public class EntryCreateAndModifyTests extends TestsBase{
 	  assertThat(newList, equalTo(oldList.withAdded(entry)));
   }
 
-  @Test(dataProvider = "randomEntryGenerator")
+   @Test(dataProvider = "entriesFromFile")
   public void modifyEntry(FillEntryFormParameter entry) throws Exception {
 		app.navigateTo().mainPage();
 		// save old state
