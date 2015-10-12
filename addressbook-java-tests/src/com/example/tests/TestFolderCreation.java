@@ -1,0 +1,42 @@
+package com.example.tests;
+
+import org.testng.annotations.Test;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
+
+public class TestFolderCreation extends TestsBase {
+	@Test
+	public void testFolderCreation() {
+		String folder = "newfolder";
+		Folders oldFolders = app.getFolderHelper().getFolders();
+		app.getFolderHelper().createFolder(folder);
+		Folders newFolders = app.getFolderHelper().getFolders();
+		assertThat(newFolders, equalTo(oldFolders.withAdded(folder)));
+	}
+
+	@Test
+	public void testVariousFoldersCreation() {
+		String folder1 = "newfolder1";
+		String folder2 = "newfolder2";
+		Folders oldFolders = app.getFolderHelper().getFolders();
+		assertThat(app.getFolderHelper().createFolder(folder1),is(nullValue()));
+		Folders newFolders = app.getFolderHelper().getFolders();
+		assertThat(newFolders, equalTo(oldFolders.withAdded(folder1)));
+		assertThat(app.getFolderHelper().createFolder(folder2),is(nullValue()));
+		Folders newFolders2 = app.getFolderHelper().getFolders();
+		assertThat(newFolders2, equalTo(oldFolders.withAdded(folder2)));
+	}
+	
+	@Test
+	public void testFoldersWithSameNameCreation() {
+		String folder1 = "newfolder";
+		String folder2 = "newfolder";
+		Folders oldFolders = app.getFolderHelper().getFolders();
+		assertThat(app.getFolderHelper().createFolder(folder1),is(nullValue()));
+		Folders newFolders = app.getFolderHelper().getFolders();
+		assertThat(newFolders, equalTo(oldFolders.withAdded(folder1)));
+		assertThat(app.getFolderHelper().createFolder(folder2),containsString("Duplicated"));
+		Folders newFolders2 = app.getFolderHelper().getFolders();
+		assertThat(newFolders2, equalTo(oldFolders.withAdded(folder2)));
+	}
+}
